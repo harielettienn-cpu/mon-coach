@@ -242,24 +242,28 @@ export default function Home() {
   const [replyIndex, setReplyIndex] = useState(0);
   const [notice, setNotice] = useState("");
 
+  
   useEffect(() => {
     try {
+      // Efface les anciennes conversations une seule fois sur cet appareil.
+      const RESET_KEY = "mon-coach-reset-v1";
+      const alreadyReset = localStorage.getItem(RESET_KEY);
+
+      if (!alreadyReset) {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.setItem(RESET_KEY, "done");
+      }
+
       const saved = localStorage.getItem(STORAGE_KEY);
 
       if (saved) {
-        const parsed: unknown = JSON.parse(saved);
+        const parsed = JSON.parse(saved) as Contact[];
 
         if (Array.isArray(parsed)) {
-          setContacts(parsed as Contact[]);
+          setContacts(parsed);
         }
       } else {
-        const grace = createContact("Grâce");
-        grace.style = "Flirty léger";
-
-        const marie = createContact("Marie");
-        marie.status = "En pause";
-
-        setContacts([grace, marie]);
+        setContacts([]);
       }
     } catch {
       setNotice("Impossible de lire la sauvegarde locale.");
@@ -267,6 +271,7 @@ export default function Home() {
       setLoaded(true);
     }
   }, []);
+
 
   useEffect(() => {
     if (!loaded) return;

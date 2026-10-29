@@ -5,7 +5,7 @@ import cors from "cors";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 const apiKey = process.env.GEMINI_API_KEY;
 
@@ -285,7 +285,6 @@ console.log("Temps Gemini :", Date.now() - debut, "ms");
 });
 
 // Démarrer le serveur
-app.listen(port, () => {
-  console.log(`Serveur Mon Coach : http://localhost:${port}`);
-  console.log("Vérification : http://localhost:3001/api/health");
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Serveur Mon Coach démarré sur le port ${port}`);
 });
