@@ -409,13 +409,15 @@ export default function Home() {
     setReplyIndex(0);
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/repondre",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+  const API_URL = "";
+
+  const response = await fetch(
+    `${API_URL}/api/repondre`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
           body: JSON.stringify({
             message: incoming.trim(),
             contactName: selected.name,
